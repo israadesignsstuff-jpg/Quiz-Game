@@ -28,4 +28,13 @@ body{
 }
 
 /*SCREENS*/
+.screen {
+  display: none;
+  padding: 2rem;
+  text-align: center;
+}
+.screen.active {
+  display: block;
+
+}
 
