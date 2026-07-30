@@ -137,7 +137,7 @@ function selectAnswer(event) {
     Array.from(answersContainer.children).forEach( (button) => {
         if(button.dataset.correct === "true") {
             button.classList.add("correct");
-        } else {
+        } else if(button === selectedButton){
             button.classList.add("incorrect");
         }
     });
@@ -145,17 +145,43 @@ function selectAnswer(event) {
 
 if(isCorrect) {
     score++;
-    scoreSpan.textContent = score;
+    scoreSpan.textContent = score
 }
 
 setTimeout(() => {
     currentQuestionIndex++;
-
-    if(currentQuestionIndex < quizQuestions.length)
-} )
+    if(currentQuestionIndex < quizQuestions.length) {
+        showQuestion()
+    } else {
+        showResults()
+    }
+}, 1000)
 
 }
 
+function showResults() {
+    quizScreen.classList.remove("active")
+    resultScreen.classList.add("active")
+
+    finalScoreSpan.textContent = score;
+
+    const percentage = (score/quizQuestions.length) * 100;
+
+     if (percentage === 100) {
+    resultMessage.textContent = "Perfect! You're a genius!";
+  } else if (percentage >= 80) {
+    resultMessage.textContent = "Great job! You know your stuff!";
+  } else if (percentage >= 60) {
+    resultMessage.textContent = "Good effort! Keep learning!";
+  } else if (percentage >= 40) {
+    resultMessage.textContent = "Not bad! Try again to improve!";
+  } else {
+    resultMessage.textContent = "Keep studying! You'll get better!";
+  }
+}
+
 function restartQuiz() {
-    console.log("quiz re-started");
+    resultScreen.classList.remove("active")
+
+    startQuiz();
 }
