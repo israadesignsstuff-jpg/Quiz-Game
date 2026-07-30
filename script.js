@@ -83,9 +83,38 @@ restartButton.addEventListener("click", restartQuiz);
 function startQuiz() {
     //reset vars
     currentQuestionIndex = 0;
-    
+    score = 0;
+    scoreSpan.textContent = 0;
+
+    startScreen.classList.remove("active");
+    quizScreen.classList.add("active");
+
+    showQuestion()
 }
 
+function showQuestion() {
+    //reset state
+    answersDisabled = false;
+    const currenQuestion = quizQuestions[currentQuestionIndex]
+
+    currentQuestionSpan.textContent = currentQuestionIndex + 1;
+
+    const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
+    progressBar.style.width = progressPercent + "%";
+
+    questionText.textContent = currenQuestion.question
+
+    // todo: explain in a second. 
+
+    answersContainer.innerHTML = "";
+
+    currenQuestion.answers.forEach(answer => {
+        const button = document.createElement("Button")
+        button.textContent = answer.text
+        button.classList.add("answer-btn")
+    
+})
+}   
 
 function restartQuiz() {
     console.log("quiz re-started");
