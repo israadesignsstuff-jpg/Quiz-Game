@@ -89,32 +89,72 @@ function startQuiz() {
     startScreen.classList.remove("active");
     quizScreen.classList.add("active");
 
-    showQuestion()
+    showQuestion();
 }
 
 function showQuestion() {
     //reset state
+    console.log("ShowQuestion is running");
     answersDisabled = false;
-    const currenQuestion = quizQuestions[currentQuestionIndex]
+    const currentQuestion = quizQuestions[currentQuestionIndex];
 
     currentQuestionSpan.textContent = currentQuestionIndex + 1;
 
     const progressPercent = (currentQuestionIndex / quizQuestions.length) * 100;
     progressBar.style.width = progressPercent + "%";
 
-    questionText.textContent = currenQuestion.question
+    questionText.textContent = currentQuestion.question;
 
     // todo: explain in a second. 
 
     answersContainer.innerHTML = "";
 
-    currenQuestion.answers.forEach(answer => {
-        const button = document.createElement("Button")
-        button.textContent = answer.text
-        button.classList.add("answer-btn")
+    currentQuestion.answers.forEach( (answer) => {
+        const button = document.createElement("button");
+        button.textContent = answer.text;
+        button.classList.add("answer-btn");
+
+        
+        button.dataset.correct = answer.correct
+
+        button.addEventListener("click",selectAnswer);
+
+        answersContainer.appendChild(button);
     
-})
+});
 }   
+
+function selectAnswer(event) {
+
+    if(answersDisabled) return;
+
+    answersDisabled = true;
+
+    const selectedButton = event.target;
+
+    const isCorrect = selectedButton.dataset.correct === "true";
+
+    Array.from(answersContainer.children).forEach( (button) => {
+        if(button.dataset.correct === "true") {
+            button.classList.add("correct");
+        } else {
+            button.classList.add("incorrect");
+        }
+    });
+
+
+if(isCorrect) {
+    score++;
+    scoreSpan.textContent = score;
+}
+
+setTimeout(() => {
+    currentQuestionIndex++;
+
+    if(currentQuestionIndex < quizQuestions.length)
+} )
+
+}
 
 function restartQuiz() {
     console.log("quiz re-started");
